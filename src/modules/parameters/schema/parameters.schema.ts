@@ -1,14 +1,14 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-export type NutrientsDocument = Nutrients & Document;
+export type ParametersDocument = Parameters & Document;
 
 @Schema()
-export class Nutrients {
+export class Parameters {
   @Prop()
   id_P: String;
 
   @Prop()
-  nutrients: String[];
+  parameters: String[];
 
   @Prop()
   ranges: String[];
@@ -16,4 +16,4 @@ export class Nutrients {
   @Prop({ type: Date, default: Date.now() })
   createdAt: Date;
 }
-export const NutrientsSchema = SchemaFactory.createForClass(Nutrients);
+export const ParametersSchema = SchemaFactory.createForClass(Parameters);

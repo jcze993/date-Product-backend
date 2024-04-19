@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateParametersFinishedDto } from './dto/create-parameters_finished.dto';
+import { CreateParametersDto } from './dto/create-parameters.dto';
 
 @Injectable()
 export class ParametersFinishedService {
-  create(createParametersFinishedDto: CreateParametersFinishedDto) {
+  create(createParametersFinishedDto: CreateParametersDto) {
     return 'This action adds a new parametersFinished';
   }
 
@@ -15,7 +15,7 @@ export class ParametersFinishedService {
     return `This action returns a #${id} parametersFinished`;
   }
 
-  update(id: number, updateParametersFinishedDto: CreateParametersFinishedDto) {
+  update(id: number, updateParametersFinishedDto: CreateParametersDto) {
     return `This action updates a #${id} parametersFinished`;
   }
 

@@ -1,5 +1,4 @@
-import { Document } from 'mongoose';
-export interface Store extends Document {
+export class CreateParametersDto {
   readonly id_P: string;
   readonly parameters: string[];
   readonly ranges: string[];

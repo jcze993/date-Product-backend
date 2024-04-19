@@ -8,7 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { ParametersFinishedService } from './parameters_finished.service';
-import { CreateParametersFinishedDto } from './dto/create-parameters_finished.dto';
+import { CreateParametersDto } from './dto/create-parameters.dto';
 
 @Controller('parameters-finished')
 export class ParametersFinishedController {
@@ -17,8 +17,8 @@ export class ParametersFinishedController {
   ) {}
 
   @Post()
-  create(@Body() createParametersFinishedDto: CreateParametersFinishedDto) {
-    return this.parametersFinishedService.create(createParametersFinishedDto);
+  create(@Body() createParametersDto: CreateParametersDto) {
+    return this.parametersFinishedService.create(createParametersDto);
   }
 
   @Get()
@@ -34,7 +34,7 @@ export class ParametersFinishedController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateParametersFinishedDto: CreateParametersFinishedDto,
+    @Body() updateParametersFinishedDto: CreateParametersDto,
   ) {
     return this.parametersFinishedService.update(
       +id,
