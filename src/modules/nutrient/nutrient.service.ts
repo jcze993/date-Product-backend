@@ -1,25 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import { CreateNutrientDto } from './dto/create-nutrient.dto';
+import { CreateNutrientDto } from './dto';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { LazyModuleLoader } from '@nestjs/core';
+import { Nutrient } from './schema';
 
 @Injectable()
 export class NutrientService {
-  create(createNutrientDto: CreateNutrientDto) {
-    return 'This action adds a new nutrient';
+  constructor(
+    @InjectModel('Nutrient')
+    private readonly nutrientModel: Model<Nutrient>,
+    private lazyModuleLoader: LazyModuleLoader,
+  ) {}
+
+  async createNutrient(
+    createNutrientDto: CreateNutrientDto,
+  ): Promise<Nutrient> {
+    return await this.nutrientModel.create(createNutrientDto);
   }
 
-  findAll() {
-    return `This action returns all nutrient`;
+  async findAllNutrients(): Promise<Nutrient[]> {
+    return await this.nutrientModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} nutrient`;
+  async findOneNutrient(id: string): Promise<Nutrient> {
+    return await this.nutrientModel.findById(id);
   }
 
-  update(id: number, updateNutrientDto: CreateNutrientDto) {
-    return `This action updates a #${id} nutrient`;
+  async updateNutrient(
+    id: string,
+    updateNutrientDto: CreateNutrientDto,
+  ): Promise<Nutrient> {
+    return await this.nutrientModel.findByIdAndUpdate(id, updateNutrientDto, {
+      new: true,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} nutrient`;
+  async removeNutrient(id: string): Promise<Nutrient> {
+    return await this.nutrientModel.findByIdAndDelete(id);
   }
 }

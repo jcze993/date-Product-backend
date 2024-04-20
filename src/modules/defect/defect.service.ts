@@ -1,25 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDefectDto } from './dto/create-defect.dto';
+import { CreateDefectDto } from './dto';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { LazyModuleLoader } from '@nestjs/core';
+import { Defect } from './schema';
 
 @Injectable()
 export class DefectService {
-  create(createDefectDto: CreateDefectDto) {
-    return 'This action adds a new defect';
+  constructor(
+    @InjectModel('Defect')
+    private readonly defectModel: Model<Defect>,
+    private lazyModuleLoader: LazyModuleLoader,
+  ) {}
+
+  async createDefect(createDefectDto: CreateDefectDto): Promise<Defect> {
+    return await this.defectModel.create(createDefectDto);
   }
 
-  findAll() {
-    return `This action returns all defect`;
+  async findAllDefects(): Promise<Defect[]> {
+    return await this.defectModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} defect`;
+  async findOneDefect(id: string): Promise<Defect> {
+    return await this.defectModel.findById(id);
   }
 
-  update(id: number, updateDefectDto: CreateDefectDto) {
-    return `This action updates a #${id} defect`;
+  async updateDefect(
+    id: string,
+    updateDefectDto: CreateDefectDto,
+  ): Promise<Defect> {
+    return await this.defectModel.findByIdAndUpdate(id, updateDefectDto, {
+      new: true,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} defect`;
+  async removeDefect(id: string): Promise<Defect> {
+    return await this.defectModel.findByIdAndDelete(id);
   }
 }

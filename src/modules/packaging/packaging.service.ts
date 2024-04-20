@@ -1,25 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePackagingDto } from './dto/create-packaging.dto';
+import { CreatePackagingDto } from './dto';
+import { Packaging } from './schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { LazyModuleLoader } from '@nestjs/core';
 
 @Injectable()
 export class PackagingService {
-  create(createPackagingDto: CreatePackagingDto) {
-    return 'This action adds a new packaging';
+  constructor(
+    @InjectModel('Packaging')
+    private readonly packagingModel: Model<Packaging>,
+    private lazyModuleLoader: LazyModuleLoader,
+  ) {}
+
+  async createPackaging(
+    createPackagingDto: CreatePackagingDto,
+  ): Promise<Packaging> {
+    return await this.packagingModel.create(createPackagingDto);
   }
 
-  findAll() {
-    return `This action returns all packaging`;
+  async findAllPackagings(): Promise<Packaging[]> {
+    return await this.packagingModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} packaging`;
+  async findOnePackaging(id: string): Promise<Packaging> {
+    return await this.packagingModel.findById(id);
   }
 
-  update(id: number, updatePackagingDto: CreatePackagingDto) {
-    return `This action updates a #${id} packaging`;
+  async updatePackaging(
+    id: string,
+    updatePackagingDto: CreatePackagingDto,
+  ): Promise<Packaging> {
+    return await this.packagingModel.findByIdAndUpdate(id, updatePackagingDto, {
+      new: true,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} packaging`;
+  async removePackaging(id: string): Promise<Packaging> {
+    return await this.packagingModel.findByIdAndDelete(id);
   }
 }

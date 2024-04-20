@@ -1,25 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateParametersDto } from './dto/create-parameters.dto';
+import { CreateParametersDto } from './dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { LazyModuleLoader } from '@nestjs/core';
+import { Parameter } from './schema';
 
 @Injectable()
 export class ParametersFinishedService {
-  create(createParametersFinishedDto: CreateParametersDto) {
-    return 'This action adds a new parametersFinished';
+  constructor(
+    @InjectModel('Parameter')
+    private readonly parameterModel: Model<Parameter>,
+    private lazyModuleLoader: LazyModuleLoader,
+  ) {}
+
+  async createParametersFinished(
+    createParametersFinishedDto: CreateParametersDto,
+  ): Promise<Parameter> {
+    return await this.parameterModel.create(createParametersFinishedDto);
   }
 
-  findAll() {
-    return `This action returns all parametersFinished`;
+  async findAllParametersFinished(): Promise<Parameter[]> {
+    return await this.parameterModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} parametersFinished`;
+  async findOneParameterFinished(id: string): Promise<Parameter> {
+    return await this.parameterModel.findById(id);
   }
 
-  update(id: number, updateParametersFinishedDto: CreateParametersDto) {
-    return `This action updates a #${id} parametersFinished`;
+  async updateParameterFinished(
+    id: string,
+    updateParametersFinishedDto: CreateParametersDto,
+  ): Promise<Parameter> {
+    return await this.parameterModel.findByIdAndUpdate(
+      id,
+      updateParametersFinishedDto,
+      { new: true },
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} parametersFinished`;
+  async removeParameterFinished(id: string): Promise<Parameter> {
+    return await this.parameterModel.findByIdAndDelete(id);
   }
 }

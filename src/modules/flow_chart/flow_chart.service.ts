@@ -1,25 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFlowChartDto } from './dto/create-flow_chart.dto';
+import { CreateFlowChartDto } from './dto';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { LazyModuleLoader } from '@nestjs/core';
+import { Flow_Chart } from './schema';
 
 @Injectable()
 export class FlowChartService {
-  create(createFlowChartDto: CreateFlowChartDto) {
-    return 'This action adds a new flowChart';
+  constructor(
+    @InjectModel('Flow_Chart')
+    private readonly flowChartModel: Model<Flow_Chart>,
+    private lazyModuleLoader: LazyModuleLoader,
+  ) {}
+
+  async createFlowChart(
+    createFlowChartDto: CreateFlowChartDto,
+  ): Promise<Flow_Chart> {
+    return await this.flowChartModel.create(createFlowChartDto);
   }
 
-  findAll() {
-    return `This action returns all flowChart`;
+  async findAllFlowCharts(): Promise<Flow_Chart[]> {
+    return await this.flowChartModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} flowChart`;
+  async findOneFlowChart(id: string): Promise<Flow_Chart> {
+    return await this.flowChartModel.findById(id);
   }
 
-  update(id: number, updateFlowChartDto: CreateFlowChartDto) {
-    return `This action updates a #${id} flowChart`;
+  async updateFlowChart(
+    id: string,
+    updateFlowChartDto: CreateFlowChartDto,
+  ): Promise<Flow_Chart> {
+    return await this.flowChartModel.findByIdAndUpdate(id, updateFlowChartDto, {
+      new: true,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} flowChart`;
+  async removeFlowChart(id: string): Promise<Flow_Chart> {
+    return await this.flowChartModel.findByIdAndDelete(id);
   }
 }

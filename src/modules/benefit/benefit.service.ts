@@ -1,25 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBenefitDto } from './dto/create-benefit.dto';
+import { CreateBenefitDto } from './dto';
+import { LazyModuleLoader } from '@nestjs/core';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { Benefit } from './schema';
 
 @Injectable()
 export class BenefitService {
-  create(createBenefitDto: CreateBenefitDto) {
-    return 'This action adds a new benefit';
+  constructor(
+    @InjectModel('Benefit') private readonly benefitModel: Model<Benefit>,
+    private lazyModuleLoader: LazyModuleLoader,
+  ) {}
+  async createBenefit(createBenefitDto: CreateBenefitDto): Promise<Benefit> {
+    return new this.benefitModel(createBenefitDto).save();
   }
 
-  findAll() {
-    return `This action returns all benefit`;
+  async findAllBenefit(): Promise<Benefit[]> {
+    return await this.benefitModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} benefit`;
+  async findOneBenefit(id: string): Promise<Benefit> {
+    return await this.benefitModel.findById(id);
   }
 
-  update(id: number, updateBenefitDto: CreateBenefitDto) {
-    return `This action updates a #${id} benefit`;
+  async updateBenefit(
+    id: string,
+    updateBenefitDto: CreateBenefitDto,
+  ): Promise<Benefit> {
+    return await this.benefitModel.findByIdAndUpdate(id, updateBenefitDto, {
+      new: true,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} benefit`;
+  async removeBenefit(id: string): Promise<Benefit> {
+    return await this.benefitModel.findByIdAndDelete(id);
   }
 }

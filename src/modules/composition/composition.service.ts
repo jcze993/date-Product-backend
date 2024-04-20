@@ -1,25 +1,44 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCompositionDto } from './dto/create-composition.dto';
+import { CreateCompositionDto } from './dto';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { LazyModuleLoader } from '@nestjs/core';
+import { Composition } from './schema';
 
 @Injectable()
 export class CompositionService {
-  create(createCompositionDto: CreateCompositionDto) {
-    return 'This action adds a new composition';
+  constructor(
+    @InjectModel('Composition')
+    private readonly compositionModel: Model<Composition>,
+    private lazyModuleLoader: LazyModuleLoader,
+  ) {}
+
+  async createComposition(
+    createCompositionDto: CreateCompositionDto,
+  ): Promise<Composition> {
+    return await this.compositionModel.create(createCompositionDto);
   }
 
-  findAll() {
-    return `This action returns all composition`;
+  async findAllCompositions(): Promise<Composition[]> {
+    return await this.compositionModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} composition`;
+  async findOneComposition(id: string): Promise<Composition> {
+    return await this.compositionModel.findById(id);
   }
 
-  update(id: number, updateCompositionDto: CreateCompositionDto) {
-    return `This action updates a #${id} composition`;
+  async updateComposition(
+    id: string,
+    updateCompositionDto: CreateCompositionDto,
+  ): Promise<Composition> {
+    return await this.compositionModel.findByIdAndUpdate(
+      id,
+      updateCompositionDto,
+      { new: true },
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} composition`;
+  async removeComposition(id: string): Promise<Composition> {
+    return await this.compositionModel.findByIdAndDelete(id);
   }
 }

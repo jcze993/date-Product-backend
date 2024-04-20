@@ -6,9 +6,11 @@ import {
   Patch,
   Param,
   Delete,
+  HttpStatus,
+  Res,
 } from '@nestjs/common';
 import { ParametersFinishedService } from './parameters_finished.service';
-import { CreateParametersDto } from './dto/create-parameters.dto';
+import { CreateParametersDto } from './dto';
 
 @Controller('parameters-finished')
 export class ParametersFinishedController {
@@ -17,33 +19,94 @@ export class ParametersFinishedController {
   ) {}
 
   @Post()
-  create(@Body() createParametersDto: CreateParametersDto) {
-    return this.parametersFinishedService.create(createParametersDto);
+  async createParametersFinished(
+    @Res() res,
+    @Body() createParametersDto: CreateParametersDto,
+  ) {
+    try {
+      const newParametersFinished =
+        await this.parametersFinishedService.createParametersFinished(
+          createParametersDto,
+        );
+      return res.status(HttpStatus.CREATED).json(newParametersFinished);
+    } catch (error) {
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .json({ message: error.message });
+    }
   }
 
   @Get()
-  findAll() {
-    return this.parametersFinishedService.findAll();
+  async findAllParametersFinished(@Res() res) {
+    try {
+      const allParametersFinished =
+        await this.parametersFinishedService.findAllParametersFinished();
+      return res.status(HttpStatus.OK).json(allParametersFinished);
+    } catch (error) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: error.message });
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.parametersFinishedService.findOne(+id);
+  async findOneParameterFinished(@Res() res, @Param('id') id: string) {
+    try {
+      const oneParameterFinished =
+        await this.parametersFinishedService.findOneParameterFinished(id);
+      if (!oneParameterFinished) {
+        return res
+          .status(HttpStatus.NOT_FOUND)
+          .json({ message: 'Parameter Finished not found' });
+      }
+      return res.status(HttpStatus.OK).json(oneParameterFinished);
+    } catch (error) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: error.message });
+    }
   }
 
   @Patch(':id')
-  update(
+  async updateParameterFinished(
+    @Res() res,
     @Param('id') id: string,
     @Body() updateParametersFinishedDto: CreateParametersDto,
   ) {
-    return this.parametersFinishedService.update(
-      +id,
-      updateParametersFinishedDto,
-    );
+    try {
+      const updatedParameterFinished =
+        await this.parametersFinishedService.updateParameterFinished(
+          id,
+          updateParametersFinishedDto,
+        );
+      if (!updatedParameterFinished) {
+        return res
+          .status(HttpStatus.NOT_FOUND)
+          .json({ message: 'Parameter Finished not found' });
+      }
+      return res.status(HttpStatus.OK).json(updatedParameterFinished);
+    } catch (error) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: error.message });
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.parametersFinishedService.remove(+id);
+  async removeParameterFinished(@Res() res, @Param('id') id: string) {
+    try {
+      const removedParameterFinished =
+        await this.parametersFinishedService.removeParameterFinished(id);
+      if (!removedParameterFinished) {
+        return res
+          .status(HttpStatus.NOT_FOUND)
+          .json({ message: 'Parameter Finished not found' });
+      }
+      return res.status(HttpStatus.OK).json(removedParameterFinished);
+    } catch (error) {
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: error.message });
+    }
   }
 }

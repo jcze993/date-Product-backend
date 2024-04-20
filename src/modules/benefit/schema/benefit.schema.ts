@@ -1,9 +1,9 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-export type BenefitsDocument = Benefits & Document;
+export type BenefitDocument = Benefit & Document;
 
 @Schema()
-export class Benefits {
+export class Benefit {
   @Prop()
   id_P: String;
 
@@ -16,4 +16,4 @@ export class Benefits {
   @Prop({ type: Date, default: Date.now() })
   createdAt: Date;
 }
-export const BenefitsSchema = SchemaFactory.createForClass(Benefits);
+export const BenefitSchema = SchemaFactory.createForClass(Benefit);

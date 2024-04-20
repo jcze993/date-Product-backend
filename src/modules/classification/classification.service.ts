@@ -1,25 +1,45 @@
 import { Injectable } from '@nestjs/common';
-import { CreateClassificationDto } from './dto/create-classification.dto';
+import { CreateClassificationDto } from './dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { LazyModuleLoader } from '@nestjs/core';
+import { Model } from 'mongoose';
+import { Classification } from './schema';
 
 @Injectable()
 export class ClassificationService {
-  create(createClassificationDto: CreateClassificationDto) {
-    return 'This action adds a new classification';
+  constructor(
+    @InjectModel('Classification')
+    private readonly classificationModel: Model<Classification>,
+    private lazyModuleLoader: LazyModuleLoader,
+  ) {}
+  async createClassification(
+    createClassificationDto: CreateClassificationDto,
+  ): Promise<Classification> {
+    return new this.classificationModel(createClassificationDto).save();
   }
 
-  findAll() {
-    return `This action returns all classification`;
+  async findAllClassification(): Promise<Classification[]> {
+    return await this.classificationModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} classification`;
+  async findOneClassification(id: string): Promise<Classification> {
+    return await this.classificationModel.findById(id);
   }
 
-  update(id: number, updateClassificationDto: CreateClassificationDto) {
-    return `This action updates a #${id} classification`;
+  async updateClassification(
+    id: string,
+    updateClassificationDto: CreateClassificationDto,
+  ): Promise<Classification> {
+    return await this.classificationModel.findByIdAndUpdate(
+      id,
+      updateClassificationDto,
+      {
+        new: true,
+      },
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} classification`;
+  async removeClassification(id: string): Promise<Classification> {
+    return await this.classificationModel.findByIdAndDelete(id);
   }
 }

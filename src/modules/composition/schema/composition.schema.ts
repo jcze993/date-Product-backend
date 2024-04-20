@@ -1,9 +1,9 @@
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-export type ParametersDocument = Parameters & Document;
+export type CompositionDocument = Composition & Document;
 
 @Schema()
-export class Parameters {
+export class Composition {
   @Prop()
   id_P: String;
 
@@ -16,4 +16,4 @@ export class Parameters {
   @Prop({ type: Date, default: Date.now() })
   createdAt: Date;
 }
-export const ParametersSchema = SchemaFactory.createForClass(Parameters);
+export const CompositionSchema = SchemaFactory.createForClass(Composition);

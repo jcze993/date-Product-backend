@@ -1,25 +1,40 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFormulaDto } from './dto/create-formula.dto';
+import { CreateFormulaDto } from './dto';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { LazyModuleLoader } from '@nestjs/core';
+import { Formula } from './schema';
 
 @Injectable()
 export class FormulaService {
-  create(createFormulaDto: CreateFormulaDto) {
-    return 'This action adds a new formula';
+  constructor(
+    @InjectModel('Formula')
+    private readonly formulaModel: Model<Formula>,
+    private lazyModuleLoader: LazyModuleLoader,
+  ) {}
+
+  async createFormula(createFormulaDto: CreateFormulaDto): Promise<Formula> {
+    return await this.formulaModel.create(createFormulaDto);
   }
 
-  findAll() {
-    return `This action returns all formula`;
+  async findAllFormulas(): Promise<Formula[]> {
+    return await this.formulaModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} formula`;
+  async findOneFormula(id: string): Promise<Formula> {
+    return await this.formulaModel.findById(id);
   }
 
-  update(id: number, updateFormulaDto: CreateFormulaDto) {
-    return `This action updates a #${id} formula`;
+  async updateFormula(
+    id: string,
+    updateFormulaDto: CreateFormulaDto,
+  ): Promise<Formula> {
+    return await this.formulaModel.findByIdAndUpdate(id, updateFormulaDto, {
+      new: true,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} formula`;
+  async removeFormula(id: string): Promise<Formula> {
+    return await this.formulaModel.findByIdAndDelete(id);
   }
 }

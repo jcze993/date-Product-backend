@@ -6,39 +6,70 @@ import {
   Patch,
   Param,
   Delete,
+  HttpStatus,
+  Res,
 } from '@nestjs/common';
 import { CompositionService } from './composition.service';
-import { CreateCompositionDto } from './dto/create-composition.dto';
+import { CreateCompositionDto } from './dto';
 
 @Controller('composition')
 export class CompositionController {
   constructor(private readonly compositionService: CompositionService) {}
 
   @Post()
-  create(@Body() createCompositionDto: CreateCompositionDto) {
-    return this.compositionService.create(createCompositionDto);
+  async createComposition(
+    @Res() res,
+    @Body() createCompositionDto: CreateCompositionDto,
+  ) {
+    const newComposition =
+      await this.compositionService.createComposition(createCompositionDto);
+    return res.status(HttpStatus.CREATED).json(newComposition);
   }
 
   @Get()
-  findAll() {
-    return this.compositionService.findAll();
+  async findAllCompositions(@Res() res) {
+    const allCompositions = await this.compositionService.findAllCompositions();
+    return res.status(HttpStatus.OK).json(allCompositions);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.compositionService.findOne(+id);
+  async findOneComposition(@Res() res, @Param('id') id: string) {
+    const composition = await this.compositionService.findOneComposition(id);
+    if (!composition) {
+      return res
+        .status(HttpStatus.NOT_FOUND)
+        .json({ message: 'Composition not found' });
+    }
+    return res.status(HttpStatus.OK).json(composition);
   }
 
   @Patch(':id')
-  update(
+  async updateComposition(
+    @Res() res,
     @Param('id') id: string,
     @Body() updateCompositionDto: CreateCompositionDto,
   ) {
-    return this.compositionService.update(+id, updateCompositionDto);
+    const updatedComposition = await this.compositionService.updateComposition(
+      id,
+      updateCompositionDto,
+    );
+    if (!updatedComposition) {
+      return res
+        .status(HttpStatus.NOT_FOUND)
+        .json({ message: 'Composition not found' });
+    }
+    return res.status(HttpStatus.OK).json(updatedComposition);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.compositionService.remove(+id);
+  async removeComposition(@Res() res, @Param('id') id: string) {
+    const removedComposition =
+      await this.compositionService.removeComposition(id);
+    if (!removedComposition) {
+      return res
+        .status(HttpStatus.NOT_FOUND)
+        .json({ message: 'Composition not found' });
+    }
+    return res.status(HttpStatus.OK).json(removedComposition);
   }
 }
