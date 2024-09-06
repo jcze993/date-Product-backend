@@ -35,4 +35,7 @@ export class BenefitService {
   async removeBenefit(id: string): Promise<Benefit> {
     return await this.benefitModel.findByIdAndDelete(id);
   }
+  async findDateBenefit(date: string): Promise<Benefit> {
+    return await this.benefitModel.findOne({ date });
+  }
 }

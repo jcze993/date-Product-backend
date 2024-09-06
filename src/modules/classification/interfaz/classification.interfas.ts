@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-export interface Parameters extends Document {
+export interface Classification extends Document {
   readonly id_P: string;
   readonly factors: string[];
   readonly scores: string[];

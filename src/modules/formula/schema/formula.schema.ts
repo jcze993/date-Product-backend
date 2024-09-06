@@ -8,7 +8,7 @@ export class Formula {
   id_P: String;
 
   @Prop()
-  name: String[];
+  names: String[];
 
   @Prop()
   formulas: String[];

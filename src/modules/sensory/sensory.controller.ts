@@ -12,7 +12,7 @@ import {
 import { SensoryService } from './sensory.service';
 import { CreateSensoryDto } from './dto';
 
-@Controller('sensory')
+@Controller('SensoryFormGroup')
 export class SensoryController {
   constructor(private readonly sensoryService: SensoryService) {}
 

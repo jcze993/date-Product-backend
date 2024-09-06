@@ -12,7 +12,7 @@ import {
 import { PackagingService } from './packaging.service';
 import { CreatePackagingDto } from './dto';
 
-@Controller('packaging')
+@Controller('PackagingFormGroup')
 export class PackagingController {
   constructor(private readonly packagingService: PackagingService) {}
 

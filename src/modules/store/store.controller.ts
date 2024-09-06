@@ -12,7 +12,7 @@ import {
 import { StoreService } from './store.service';
 import { CreateStoreDto } from './dto';
 
-@Controller('store')
+@Controller('StoreFormGroup')
 export class StoreController {
   constructor(private readonly storeService: StoreService) {}
 

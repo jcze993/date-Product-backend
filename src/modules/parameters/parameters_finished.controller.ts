@@ -12,7 +12,7 @@ import {
 import { ParametersFinishedService } from './parameters_finished.service';
 import { CreateParametersDto } from './dto';
 
-@Controller('parameters-finished')
+@Controller('ParametersFormGroup')
 export class ParametersFinishedController {
   constructor(
     private readonly parametersFinishedService: ParametersFinishedService,

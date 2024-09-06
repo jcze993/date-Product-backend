@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-export interface Parameters extends Document {
+export interface Defect extends Document {
   readonly id_P: string;
   readonly defects: string[];
   readonly causes: string[];

@@ -12,7 +12,7 @@ import {
 import { CompositionService } from './composition.service';
 import { CreateCompositionDto } from './dto';
 
-@Controller('composition')
+@Controller('CompositionFormGroup')
 export class CompositionController {
   constructor(private readonly compositionService: CompositionService) {}
 

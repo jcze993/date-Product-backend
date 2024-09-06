@@ -12,7 +12,7 @@ import {
 import { FormulaService } from './formula.service';
 import { CreateFormulaDto } from './dto';
 
-@Controller('formula')
+@Controller('FormulaFormGroup')
 export class FormulaController {
   constructor(private readonly formulaService: FormulaService) {}
 

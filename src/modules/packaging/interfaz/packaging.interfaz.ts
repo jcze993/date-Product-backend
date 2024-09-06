@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-export interface Parameters extends Document {
+export interface Packaging extends Document {
   readonly id_P: string;
   readonly descriptions: string[];
   readonly functions: string[];

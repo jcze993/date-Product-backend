@@ -12,7 +12,7 @@ import {
 import { BenefitService } from './benefit.service';
 import { CreateBenefitDto } from './dto';
 
-@Controller('benefit')
+@Controller('BenefitsFormGroup')
 export class BenefitController {
   constructor(private readonly benefitService: BenefitService) {}
 

@@ -4,6 +4,7 @@ import { CompositionModule } from '@modules/composition';
 import { DefectModule } from '@modules/defect';
 import { FlowChartModule } from '@modules/flow_chart';
 import { FormulaModule } from '@modules/formula';
+import { NutrientModule } from '@modules/nutrient/nutrient.module';
 import { PackagingModule } from '@modules/packaging';
 import { ParametersFinishedModule } from '@modules/parameters';
 import { ProductModule } from '@modules/product';
@@ -30,6 +31,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     ParametersFinishedModule,
     SensoryModule,
     StoreModule,
+    NutrientModule,
   ],
   controllers: [],
   providers: [],

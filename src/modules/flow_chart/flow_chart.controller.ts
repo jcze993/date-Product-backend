@@ -12,7 +12,7 @@ import {
 import { FlowChartService } from './flow_chart.service';
 import { CreateFlowChartDto } from './dto';
 
-@Controller('flow-chart')
+@Controller('Flow_ChartFormGroup')
 export class FlowChartController {
   constructor(private readonly flowChartService: FlowChartService) {}
 

@@ -12,7 +12,7 @@ import {
 import { DefectService } from './defect.service';
 import { CreateDefectDto } from './dto';
 
-@Controller('defect')
+@Controller('DefectsFormGroup')
 export class DefectController {
   constructor(private readonly defectService: DefectService) {}
 

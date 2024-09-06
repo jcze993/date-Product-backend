@@ -12,7 +12,7 @@ import {
 import { ClassificationService } from './classification.service';
 import { CreateClassificationDto } from './dto';
 
-@Controller('classification')
+@Controller('ClassificationFormGroup')
 export class ClassificationController {
   constructor(private readonly classificationService: ClassificationService) {}
 
